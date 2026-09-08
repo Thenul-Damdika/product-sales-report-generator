@@ -42,4 +42,46 @@ public class ProductSalesCalculator {
 
         return categoryRevenue;
     }
+
+    // Find the best-selling product by quantity sold
+    public Product findBestSellingProduct(List<Product> products) {
+
+        if (products == null || products.isEmpty()) {
+            return null;
+        }
+
+        Product bestSelling = products.get(0);
+
+        for (Product product : products) {
+
+            if (product.getQuantitySold()
+                    > bestSelling.getQuantitySold()) {
+
+                bestSelling = product;
+            }
+        }
+
+        return bestSelling;
+    }
+
+    // Find the product with the highest revenue
+    public Product findHighestRevenueProduct(List<Product> products) {
+
+        if (products == null || products.isEmpty()) {
+            return null;
+        }
+
+        Product highestRevenue = products.get(0);
+
+        for (Product product : products) {
+
+            if (calculateProductRevenue(product)
+                    > calculateProductRevenue(highestRevenue)) {
+
+                highestRevenue = product;
+            }
+        }
+
+        return highestRevenue;
+    }
 }
