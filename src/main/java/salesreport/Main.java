@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+
 public class Main {
 
     public static void main(String[] args) {
@@ -70,41 +71,11 @@ public class Main {
             );
 
             // Display report
-            if (outputMethod.equalsIgnoreCase("console")) {
+           if(outputMethod.equalsIgnoreCase("console")) {
+               ConsoleOutputStrategy consoleOutputStrategy = new ConsoleOutputStrategy();
 
-                ConsoleOutputStrategy output =
-                        new ConsoleOutputStrategy();
-
-                System.out.println();
-                System.out.println("========================================");
-                System.out.println("          SALES REPORT SUMMARY");
-                System.out.println("========================================");
-
-                System.out.println();
-                System.out.println("PRODUCT REVENUE");
-                System.out.println("----------------------------------------");
-
-                for (Product product : products) {
-
-                    double revenue =
-                            calculator.calculateProductRevenue(product);
-
-                    output.printProduct(product, revenue);
-                }
-
-                System.out.println();
-                System.out.println("CATEGORY REVENUE");
-                System.out.println("----------------------------------------");
-
-                for (Map.Entry<String, Double> entry :
-                        report.getCategoryRevenue().entrySet()) {
-
-                    System.out.printf(
-                            "%-20s $%.2f%n",
-                            entry.getKey(),
-                            entry.getValue()
-                    );
-                }
+               consoleOutputStrategy.displayReport(products,report,calculator);
+           }
 
                 System.out.println();
                 System.out.println("----------------------------------------");
@@ -142,7 +113,6 @@ public class Main {
                 System.out.println("             END OF REPORT");
                 System.out.println("========================================");
 
-            }
 
         } catch (IOException e) {
 
