@@ -39,8 +39,8 @@ public class Main {
         System.out.println("Command-line arguments are valid.");
         System.out.println("CSV file: " + csvFilePath);
         System.out.println("Output method: " + outputMethod);
-        try {
 
+        try {
             // Read products from CSV
             CSVReader csvReader = new CSVReader();
             List<Product> products = csvReader.readProducts(csvFilePath);
@@ -50,17 +50,13 @@ public class Main {
                     new ProductSalesCalculator();
 
             // Calculate report values
-            Map<String, Double> categoryRevenue =
-                    calculator.calculateCategoryRevenue(products);
+            Map<String, Double> categoryRevenue = calculator.calculateCategoryRevenue(products);
 
-            double grandTotalRevenue =
-                    calculator.calculateGrandTotalRevenue(products);
+            double grandTotalRevenue = calculator.calculateGrandTotalRevenue(products);
 
-            Product bestSellingProduct =
-                    calculator.findBestSellingProduct(products);
+            Product bestSellingProduct = calculator.findBestSellingProduct(products);
 
-            Product highestRevenueProduct =
-                    calculator.findHighestRevenueProduct(products);
+            Product highestRevenueProduct = calculator.findHighestRevenueProduct(products);
 
             // Create SalesReport
             SalesReport report = new SalesReport(
@@ -79,9 +75,7 @@ public class Main {
 
                 System.out.println();
                 System.out.println("----------------------------------------");
-                System.out.printf(
-                        "Grand Total Revenue: $%.2f%n",
-                        report.getGrandTotalRevenue()
+                System.out.printf("Grand Total Revenue: $%.2f%n", report.getGrandTotalRevenue()
                 );
 
                 System.out.println();
@@ -114,17 +108,20 @@ public class Main {
                 System.out.println("========================================");
 
 
-        } catch (IOException e) {
+        } catch (java.io.FileNotFoundException e) {
 
-            System.err.println(
-                    "Error reading CSV file: " + e.getMessage()
-            );
+            System.err.println("Error: CSV file not found: " + csvFilePath);
 
+        } catch (NumberFormatException e) {
+
+            System.err.println("Error: Invalid numeric value found in the CSV file.");
+
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Error:Invalid CSV format.Required column is missing");
+        }catch (IOException e) {
+            System.out.println("Error:Reading CSV file:"+e.getMessage());
         } catch (Exception e) {
-
-            System.err.println(
-                    "Error generating report: " + e.getMessage()
-            );
+            System.out.println("Error generating Report:"+e.getMessage());
         }
     }
 } 
