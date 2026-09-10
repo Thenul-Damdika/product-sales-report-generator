@@ -1,5 +1,8 @@
 package salesreport;
 
+import java.util.List;
+import java.util.Map;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -24,6 +27,37 @@ public class Main {
             return;
         }
 
-        System.out.println("Arguments are valid.");
+        CsvFileReader reader = new CsvFileReader();
+        List<Product> products = reader.readProducts(csvFilePath);
+
+        if (products.isEmpty()) {
+            System.err.println("Error: No valid products found in the CSV file.");
+            return;
+        }
+
+        ProductSalesCalculator calculator = new ProductSalesCalculator();
+        
+        Map<String, Double> categoryRevenue = calculator.calculateCategoryRevenue(products);
+        double grandTotal = calculator.calculateGrandTotalRevenue(products);
+        Product bestSelling = calculator.findBestSellingProduct(products);
+        Product highestRevenue = calculator.findHighestRevenueProduct(products);
+
+        SalesReport report = new SalesReport(
+                categoryRevenue, 
+                grandTotal, 
+                bestSelling, 
+                highestRevenue
+        );
+
+        ReportOutputStrategy outputStrategy;
+        
+        if (outputMethod.equalsIgnoreCase("file")) {
+            outputStrategy = new FileOutputStrategy(args[2]);
+        } else {
+            // Note: Work for Dimuth
+            outputStrategy = new ConsoleOutputStrategy(); 
+        }
+
+        outputStrategy.generateReport(report);
     }
 } 
