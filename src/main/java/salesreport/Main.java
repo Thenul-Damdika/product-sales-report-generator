@@ -34,123 +34,37 @@ public class Main {
             return;
         }
 
-        try {
+        CsvFileReader reader = new CsvFileReader();
+        List<Product> products = reader.readProducts(csvFilePath);
 
-            // Read products from CSV
-            CSVReader csvReader = new CSVReader();
-            List<Product> products = csvReader.readProducts(csvFilePath);
-
-            // Create calculator
-            ProductSalesCalculator calculator =
-                    new ProductSalesCalculator();
-
-            // Calculate report values
-            Map<String, Double> categoryRevenue =
-                    calculator.calculateCategoryRevenue(products);
-
-            double grandTotalRevenue =
-                    calculator.calculateGrandTotalRevenue(products);
-
-            Product bestSellingProduct =
-                    calculator.findBestSellingProduct(products);
-
-            Product highestRevenueProduct =
-                    calculator.findHighestRevenueProduct(products);
-
-            // Create SalesReport
-            SalesReport report = new SalesReport(
-                    categoryRevenue,
-                    grandTotalRevenue,
-                    bestSellingProduct,
-                    highestRevenueProduct
-            );
-
-            // Display report
-            if (outputMethod.equalsIgnoreCase("console")) {
-
-                ConsoleOutputStrategy output =
-                        new ConsoleOutputStrategy();
-
-                System.out.println();
-                System.out.println("========================================");
-                System.out.println("          SALES REPORT SUMMARY");
-                System.out.println("========================================");
-
-                System.out.println();
-                System.out.println("PRODUCT REVENUE");
-                System.out.println("----------------------------------------");
-
-                for (Product product : products) {
-
-                    double revenue =
-                            calculator.calculateProductRevenue(product);
-
-                    output.printProduct(product, revenue);
-                }
-
-                System.out.println();
-                System.out.println("CATEGORY REVENUE");
-                System.out.println("----------------------------------------");
-
-                for (Map.Entry<String, Double> entry :
-                        report.getCategoryRevenue().entrySet()) {
-
-                    System.out.printf(
-                            "%-20s $%.2f%n",
-                            entry.getKey(),
-                            entry.getValue()
-                    );
-                }
-
-                System.out.println();
-                System.out.println("----------------------------------------");
-                System.out.printf(
-                        "Grand Total Revenue: $%.2f%n",
-                        report.getGrandTotalRevenue()
-                );
-
-                System.out.println();
-                System.out.println("HIGHLIGHTS");
-                System.out.println("----------------------------------------");
-
-                System.out.println(
-                        "Best-Selling Product: "
-                                + report.getBestSellingProduct().getProductName()
-                                + " - "
-                                + report.getBestSellingProduct().getQuantitySold()
-                                + " units"
-                );
-
-                System.out.println(
-                        "Highest-Revenue Product: "
-                                + report.getHighestRevenueProduct().getProductName()
-                                + " - $"
-                                + String.format(
-                                        "%.2f",
-                                        calculator.calculateProductRevenue(
-                                                report.getHighestRevenueProduct()
-                                        )
-                                )
-                );
-
-                System.out.println();
-                System.out.println("========================================");
-                System.out.println("             END OF REPORT");
-                System.out.println("========================================");
-
-            }
-
-        } catch (IOException e) {
-
-            System.err.println(
-                    "Error reading CSV file: " + e.getMessage()
-            );
-
-        } catch (Exception e) {
-
-            System.err.println(
-                    "Error generating report: " + e.getMessage()
-            );
+        if (products.isEmpty()) {
+            System.err.println("Error: No valid products found in the CSV file.");
+            return;
         }
+
+        ProductSalesCalculator calculator = new ProductSalesCalculator();
+        
+        Map<String, Double> categoryRevenue = calculator.calculateCategoryRevenue(products);
+        double grandTotal = calculator.calculateGrandTotalRevenue(products);
+        Product bestSelling = calculator.findBestSellingProduct(products);
+        Product highestRevenue = calculator.findHighestRevenueProduct(products);
+
+        SalesReport report = new SalesReport(
+                categoryRevenue, 
+                grandTotal, 
+                bestSelling, 
+                highestRevenue
+        );
+
+        ReportOutputStrategy outputStrategy;
+        
+        if (outputMethod.equalsIgnoreCase("file")) {
+            outputStrategy = new FileOutputStrategy(args[2]);
+        } else {
+            // Note: Work for Dimuth
+            outputStrategy = new ConsoleOutputStrategy(); 
+        }
+
+        outputStrategy.generateReport(report);
     }
 }

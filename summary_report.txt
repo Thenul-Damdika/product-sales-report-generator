@@ -1,0 +1,12 @@
+=============================
+SALES SUMMARY REPORT
+=============================
+--- Revenue Per Category ---
+Electronics     : $690.00
+Stationery      : $181.25
+--- Highlights ---
+Best-Selling Product: Ballpoint Pen (100 units)
+Highest Revenue: Wireless Mouse ($306.00)
+=============================
+Grand Total Revenue : $871.25
+=============================
