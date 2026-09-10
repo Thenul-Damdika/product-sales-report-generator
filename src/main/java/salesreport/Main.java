@@ -1,5 +1,6 @@
 package salesreport;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -8,7 +9,9 @@ public class Main {
     public static void main(String[] args) {
 
         if (args.length < 2) {
-            System.err.println("Usage: java SalesReporter <csv-file-path> <output-method> [output-file-path]");
+            System.err.println(
+                    "Usage: java SalesReporter <csv-file-path> <output-method> [output-file-path]"
+            );
             return;
         }
 
@@ -18,12 +21,16 @@ public class Main {
         if (!outputMethod.equalsIgnoreCase("console")
                 && !outputMethod.equalsIgnoreCase("file")) {
 
-            System.err.println("Error: Invalid output method. Use 'console' or 'file'.");
+            System.err.println(
+                    "Error: Invalid output method. Use 'console' or 'file'."
+            );
             return;
         }
 
         if (outputMethod.equalsIgnoreCase("file") && args.length < 3) {
-            System.err.println("Error: Output file path is required when using 'file' output.");
+            System.err.println(
+                    "Error: Output file path is required when using 'file' output."
+            );
             return;
         }
 
@@ -60,4 +67,4 @@ public class Main {
 
         outputStrategy.generateReport(report);
     }
-} 
+}
