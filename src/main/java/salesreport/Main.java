@@ -46,8 +46,7 @@ public class Main {
             List<Product> products = csvReader.readProducts(csvFilePath);
 
             // Create calculator
-            ProductSalesCalculator calculator =
-                    new ProductSalesCalculator();
+            ProductSalesCalculator calculator = new ProductSalesCalculator();
 
             // Calculate report values
             Map<String, Double> categoryRevenue = calculator.calculateCategoryRevenue(products);
@@ -71,9 +70,15 @@ public class Main {
                ConsoleOutputStrategy consoleOutputStrategy = new ConsoleOutputStrategy();
 
                consoleOutputStrategy.displayReport(products,report,calculator);
+           } else if (outputMethod.equalsIgnoreCase("file")) {
+               String outputFilePath = args[2];
+
+               FileOutputStrategy fileOutputStrategy = new FileOutputStrategy(outputFilePath);
+               fileOutputStrategy.generateReport(report);
+               System.out.println("Sales report successfully saved to: " + outputFilePath);
            }
 
-                System.out.println();
+            System.out.println();
                 System.out.println("----------------------------------------");
                 System.out.printf("Grand Total Revenue: $%.2f%n", report.getGrandTotalRevenue()
                 );
