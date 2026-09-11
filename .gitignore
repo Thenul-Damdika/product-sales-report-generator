@@ -2,3 +2,6 @@ target/
 *.class
 .idea/
 .vscode/
+.github/
+.DS_Store
+bin/
