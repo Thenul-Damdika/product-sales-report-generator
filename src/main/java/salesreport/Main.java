@@ -68,8 +68,8 @@ public class Main {
             // Display report
            if(outputMethod.equalsIgnoreCase("console")) {
                ConsoleOutputStrategy consoleOutputStrategy = new ConsoleOutputStrategy();
-
                consoleOutputStrategy.displayReport(products,report,calculator);
+
            } else if (outputMethod.equalsIgnoreCase("file")) {
                String outputFilePath = args[2];
 
@@ -77,40 +77,6 @@ public class Main {
                fileOutputStrategy.generateReport(report);
                System.out.println("Sales report successfully saved to: " + outputFilePath);
            }
-
-            System.out.println();
-                System.out.println("----------------------------------------");
-                System.out.printf("Grand Total Revenue: $%.2f%n", report.getGrandTotalRevenue()
-                );
-
-                System.out.println();
-                System.out.println("HIGHLIGHTS");
-                System.out.println("----------------------------------------");
-
-                System.out.println(
-                        "Best-Selling Product: "
-                                + report.getBestSellingProduct().getProductName()
-                                + " - "
-                                + report.getBestSellingProduct().getQuantitySold()
-                                + " units"
-                );
-
-                System.out.println(
-                        "Highest-Revenue Product: "
-                                + report.getHighestRevenueProduct().getProductName()
-                                + " - $"
-                                + String.format(
-                                        "%.2f",
-                                        calculator.calculateProductRevenue(
-                                                report.getHighestRevenueProduct()
-                                        )
-                                )
-                );
-
-                System.out.println();
-                System.out.println("========================================");
-                System.out.println("             END OF REPORT");
-                System.out.println("========================================");
 
 
         } catch (java.io.FileNotFoundException e) {
@@ -121,11 +87,11 @@ public class Main {
 
             System.err.println("Error: Invalid numeric value found in the CSV file.");
 
-        } catch (ArrayIndexOutOfBoundsException e) {
+        }catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("Error:Invalid CSV format.Required column is missing");
         }catch (IOException e) {
             System.out.println("Error:Reading CSV file:"+e.getMessage());
-        } catch (Exception e) {
+        }catch (Exception e) {
             System.out.println("Error generating Report:"+e.getMessage());
         }
     }

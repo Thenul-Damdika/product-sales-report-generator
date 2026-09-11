@@ -83,10 +83,7 @@ public class ConsoleOutputStrategy {
 
         double highestRevenueAmount = calculator.calculateProductRevenue(highestRevenue);
 
-        System.out.printf("Highest-Revenue Product: %s - $%.2f%n",
-                highestRevenue.getProductName(),
-                highestRevenueAmount
-        );
+        System.out.printf("Highest-Revenue Product: %s - $%.2f%n", highestRevenue.getProductName(), highestRevenueAmount);
     }
 
     private void printFooter(){
