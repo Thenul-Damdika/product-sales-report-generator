@@ -2,7 +2,8 @@ package salesreport;
 import java.util.List;
 import java.util.Map;
 
-public class ConsoleOutputStrategy implements ReportOutputStrategy {
+public class ConsoleOutputStrategy{
+    
 
    public void displayReport( List<Product> products, SalesReport report, ProductSalesCalculator calculator){
        printHeader();
