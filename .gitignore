@@ -1,6 +1,8 @@
 target/
 *.class
 .idea/
+output/*
+!output/.gitkeep
 .vscode/
 .github/
 .DS_Store
